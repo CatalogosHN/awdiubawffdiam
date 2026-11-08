@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120c2b">
+<title>Calculadora de Diamantes | Cotizaciones</title>
+<style>
+  :root{color-scheme:dark;--bg:#090818;--panel:#17112d;--panel2:#1e1740;--border:#4b367b;--muted:#b8aed4;--white:#faf8ff;--gold:#ffc640;--gold2:#ffab12;--purple:#ba6bff;--cyan:#5be9ff;--green:#6ef0a5;--red:#ff9c9c}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% -5%,#44206c 0,transparent 38%),radial-gradient(ellipse at 100% 15%,#25155d 0,transparent 35%),linear-gradient(145deg,#090818,#100b26 65%,#090818);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--white)}
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.24;background:repeating-linear-gradient(123deg,transparent 0 118px,#8b44cd 119px,transparent 121px,transparent 230px);z-index:-1}
+  .wrap{width:min(1130px,calc(100% - 30px));margin:auto;padding:35px 0 54px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:27px}.brand{display:flex;align-items:center;gap:14px}.gem{width:62px;height:62px;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(145deg,#192e88,#4ae7ff 65%,#276cd2);border:2px solid #84f4ff;border-radius:16px;box-shadow:0 0 25px #3ebaff55;font-size:35px;transform:rotate(-8deg)}.gem span{transform:rotate(8deg)}
+  h1,h2,h3,p{margin-top:0}h1{font-weight:950;letter-spacing:.2px;line-height:1.06;margin-bottom:7px;font-size:clamp(25px,3.5vw,43px)}h1 strong{color:var(--gold)}.subtitle{color:var(--muted);font-size:14px;margin-bottom:0}.tag{display:inline-flex;gap:6px;align-items:center;border:1px solid #5d3b89;background:#20153c;padding:8px 11px;border-radius:999px;color:#f4ddff;font-size:12px;font-weight:800;white-space:nowrap}
+  .panel{background:linear-gradient(145deg,#1c1538ef,#130e2cf7);border:1px solid #594081;border-radius:21px;box-shadow:0 20px 45px #07061655, inset 0 1px 0 #fff1;overflow:hidden}
+  .control{padding:26px;margin-bottom:20px}.controlgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:25px;align-items:start}.fieldtitle{display:block;font-size:12px;color:#e0c5fc;font-weight:850;letter-spacing:.08em;text-transform:uppercase;margin-bottom:9px}.quantityrow{display:flex;gap:10px;align-items:center;position:relative}.quantityrow:before{content:"💎";position:absolute;left:16px;font-size:24px;pointer-events:none}.numberinput{height:65px;width:100%;min-width:0;padding:0 18px 0 57px;background:#090720;border:2px solid #9064e0;border-radius:13px;color:#fff;font-size:31px;font-weight:950;outline:0;font-variant-numeric:tabular-nums;box-shadow:0 0 19px #925fff22}.numberinput:focus{border-color:var(--gold);box-shadow:0 0 0 4px #ffcc4530}.quick{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.quick button{background:#30234e;color:#e8dcff;border:1px solid #674c90;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:800;cursor:pointer}.quick button:hover,.quick button:focus-visible{border-color:var(--gold);color:white}
+  .currencygrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.currencybtn{min-height:64px;background:#120c2c;color:#d8cbe9;border:1px solid #5d4688;border-radius:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:900;font-size:15px}.currencybtn small{font-size:10px;color:#ac9fcb;font-weight:650}.currencybtn[aria-pressed=true]{background:linear-gradient(155deg,#ffe07a,#fcb52d);color:#241422;border-color:#fff1bd;box-shadow:0 4px 14px #ffbc3d33}.currencybtn[aria-pressed=true] small{color:#4d2d12}.helper{font-size:12px;color:#a99ec4;line-height:1.55;margin:12px 0 0}
+  .error{color:#ffd2d2;background:#69243355;border:1px solid #b83e5a;border-radius:10px;padding:11px 14px;margin-top:14px;display:none}.error.show{display:block}
+  .sectiontitle{display:flex;align-items:baseline;gap:12px;justify-content:space-between;flex-wrap:wrap;margin:10px 0 15px}.sectiontitle h2{font-size:21px;margin:0}.sectiontitle p{font-size:12px;color:var(--muted);margin:0}
+  .results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.rescard{padding:22px;position:relative}.rescard.best{border-color:#d8a33a;background:linear-gradient(145deg,#2a213b,#15102d 75%)}.rescard.closest{border-color:#70549d}.rectop{display:flex;align-items:start;justify-content:space-between;gap:12px}.rectop h3{font-size:19px;margin-bottom:6px}.pill{font-weight:850;font-size:10px;padding:6px 9px;border-radius:7px;white-space:nowrap;background:#634816;color:#ffe4a0}.closest .pill{background:#443064;color:#e4c0ff}.caption{color:var(--muted);font-size:12px;line-height:1.55;margin:0 0 20px}.price{font-size:clamp(28px,4vw,40px);color:var(--gold);font-weight:1000;letter-spacing:-1px;line-height:1.2;overflow-wrap:anywhere}.priceunder{font-size:12px;color:#b6acd1;margin-top:5px}.triplet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:20px 0;border-top:1px solid #50406a;border-bottom:1px solid #50406a;padding:15px 0}.statlabel{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.statnum{display:block;font-size:16px;font-weight:950;font-variant-numeric:tabular-nums}.statnum.positive{color:var(--green)}.statnum.negative{color:#ffdfa2}
+  .packtitle{font-size:12px;font-weight:850;color:#dfcaef;margin-bottom:9px}.packs{display:flex;flex-wrap:wrap;gap:7px;min-height:41px;align-content:start}.pack{display:inline-flex;align-items:center;gap:6px;color:#edf4ff;background:#201b48;border:1px solid #54569b;padding:7px 9px;border-radius:9px;font-weight:750;font-size:12px}.pack b{color:#f2ca68}.alltitle{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b9a1de;margin:18px 0 8px;font-weight:850}.prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.pricebox{padding:10px;background:#0e0b25;border:1px solid #45345d;border-radius:10px;display:flex;flex-direction:column;gap:5px}.pricebox b{font-size:15px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}.pricebox span{color:#b4a5ca;font-weight:800;font-size:10px}.pricebox.selected{border-color:#ffbc31;background:#382918}.pricebox.selected b{color:#ffe080}
+  .buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.primary{display:inline-flex;justify-content:center;align-items:center;gap:7px;border:0;border-radius:11px;background:linear-gradient(130deg,#ffe077,#ffb21a);color:#24162a;min-height:43px;padding:11px 13px;font-size:13px;font-weight:900;cursor:pointer;flex:1}.secondary{display:inline-flex;justify-content:center;align-items:center;gap:7px;border:1px solid #7653a4;background:#30214f;color:#f3e5ff;border-radius:11px;padding:10px 13px;font-size:12px;font-weight:800;cursor:pointer}.primary:focus-visible,.secondary:focus-visible,.currencybtn:focus-visible{outline:3px solid #9befff;outline-offset:2px}
+  .bottom{margin-top:24px}.settings{padding:0}.settings summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:21px 25px;cursor:pointer;list-style:none;font-weight:900}.settings summary::-webkit-details-marker{display:none}.settings summary:after{content:"⌄";font-size:25px;color:var(--gold)}.settings[open] summary:after{content:"⌃"}.settingscontent{padding:0 24px 22px}.settingslead{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}.tablewrap{overflow-x:auto}.settingstable{width:100%;border-collapse:collapse;min-width:680px}.settingstable th{font-size:12px;color:#e0c5fc;white-space:nowrap;text-align:left;padding:10px 8px;background:#2a1e48}.settingstable td{padding:9px 8px;border-bottom:1px solid #3e325b;font-size:13px;font-weight:700}.settingstable input[type=number]{width:100%;min-width:83px;max-width:140px;background:#0b0822;border:1px solid #6a4e97;border-radius:7px;padding:9px;color:#fff;font-size:14px}.settingstable input[type=checkbox]{width:18px;height:18px;accent-color:#f8c43b;cursor:pointer}.settingsactions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.foot{color:#a79bbd;text-align:center;font-size:12px;line-height:1.6;margin:22px 0 0}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:#233c2d;border:1px solid #78eeb4;color:#eaffef;padding:12px 19px;border-radius:11px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 12px 30px #0007;z-index:100;font-size:13px;font-weight:800}.toast.on{opacity:1;transform:translate(-50%,0)}
+  @media(max-width:760px){.wrap{padding-top:20px;width:min(100% - 20px,560px)}.top{align-items:flex-start;gap:9px}.gem{width:49px;height:49px;font-size:28px}.brand{gap:10px}.tag{display:none}.control{padding:17px}.controlgrid,.results{grid-template-columns:1fr;gap:21px}.rescard{padding:18px}.quantityrow:before{left:13px}.numberinput{font-size:29px}.settingscontent{padding-left:15px;padding-right:15px}.settings summary{padding:18px 15px}.sectiontitle h2{font-size:19px}}
+  @media(max-width:365px){.currencybtn{font-size:13px}.quick button{padding:8px 9px}.triplet{gap:4px}.statnum{font-size:14px}.prices{gap:5px}.pricebox{padding:8px}.pricebox b{font-size:13px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div class="brand"><div class="gem" aria-hidden="true"><span>💎</span></div><div><h1>CALCULADORA <strong>FF</strong></h1><p class="subtitle">Cotizá paquetes de diamantes en segundos</p></div></div>
+    <span class="tag">✦ 4 monedas · precios editables</span>
+  </header>
+
+  <section class="panel control" aria-labelledby="controlHeading">
+    <div class="controlgrid">
+      <div>
+        <label for="amount" class="fieldtitle" id="controlHeading">¿Cuántos diamantes quiere el cliente?</label>
+        <div class="quantityrow"><input id="amount" class="numberinput" type="number" min="1" max="200000" step="1" inputmode="numeric" value="10000" placeholder="Ej. 10000" autocomplete="off"></div>
+        <div class="quick" aria-label="Cantidades rápidas">
+          <button type="button" data-quick="1000">1,000</button><button type="button" data-quick="5000">5,000</button><button type="button" data-quick="10000">10,000</button><button type="button" data-quick="12000">12,000</button><button type="button" data-quick="20000">20,000</button>
+        </div>
+      </div>
+      <div>
+        <span class="fieldtitle">Moneda para buscar el precio mínimo</span>
+        <div class="currencygrid" id="currencyButtons" role="group" aria-label="Elegir moneda principal">
+          <button type="button" class="currencybtn" data-currency="USD" aria-pressed="true">🇺🇸 USD<small>Dólares</small></button>
+          <button type="button" class="currencybtn" data-currency="HNL" aria-pressed="false">🇭🇳 HNL<small>Lempiras</small></button>
+          <button type="button" class="currencybtn" data-currency="MXN" aria-pressed="false">🇲🇽 MXN<small>Pesos MX</small></button>
+          <button type="button" class="currencybtn" data-currency="COP" aria-pressed="false">🇨🇴 COP<small>Pesos CO</small></button>
+        </div>
+        <p class="helper">Los cuatro totales se muestran siempre. Al cambiar la moneda, recalculamos qué combinación sale más barata en esa moneda.</p>
+      </div>
+    </div>
+    <div id="error" class="error" role="alert"></div>
+  </section>
+
+  <div class="sectiontitle"><h2>Resultados de tu cotización</h2><p>Paquetes acumulados hasta cubrir la cantidad solicitada</p></div>
+  <div class="results" aria-live="polite">
+    <article class="panel rescard best" id="bestCard"></article>
+    <article class="panel rescard closest" id="closestCard"></article>
+  </div>
+
+  <section class="bottom">
+    <details class="panel settings" id="settings">
+      <summary>⚙️ Editar precios o activar/desactivar paquetes</summary>
+      <div class="settingscontent">
+        <p class="settingslead">Estos son los precios de tu imagen. Podés modificarlos cuando cambien las promociones; quedan guardados en este navegador cuando esté permitido. <b>Los paquetes semanales, mensuales y el pase Booyah no se suman como diamantes</b> porque son productos diferentes.</p>
+        <div class="tablewrap"><table class="settingstable"><thead><tr><th>Activo</th><th>Diamantes</th><th>USD ($)</th><th>HNL (L)</th><th>MXN (MX$)</th><th>COP</th></tr></thead><tbody id="priceRows"></tbody></table></div>
+        <div class="settingsactions"><button class="primary" type="button" id="savePrices">✓ Guardar precios y recalcular</button><button class="secondary" type="button" id="resetPrices">↺ Restaurar precios de la imagen</button></div>
+      </div>
+    </details>
+    <p class="foot">Cálculos basados en la suma de los paquetes configurados, no en una tasa de cambio aproximada. La herramienta funciona sin internet y no realiza recargas ni pagos.</p>
+  </section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(() => {
+  'use strict';
+  const DEFAULTS = [
+    {diamonds:110,USD:100,HNL:27,MXN:19,COP:3300,enabled:true},
+    {diamonds:341,USD:300,HNL:82,MXN:57,COP:9900,enabled:true},
+    {diamonds:572,USD:460,HNL:125,MXN:88,COP:15180,enabled:true},
+    {diamonds:1166,USD:900,HNL:244,MXN:171,COP:29700,enabled:true},
+    {diamonds:2398,USD:1800,HNL:487,MXN:342,COP:59400,enabled:true},
+    {diamonds:6160,USD:4500,HNL:1217,MXN:855,COP:148500,enabled:true},
+    {diamonds:12320,USD:8800,HNL:2380,MXN:1672,COP:290400,enabled:true}
+  ];
+  const currencies = ['USD','HNL','MXN','COP'];
+  const numberFmt = new Intl.NumberFormat('en-US');
+  const $ = id => document.getElementById(id);
+  const deepCopy = a => a.map(x=>({...x}));
+  function load(){try{const saved=JSON.parse(localStorage.getItem('ff_calc_prices_v1'));if(Array.isArray(saved)&&saved.length===DEFAULTS.length&&saved.every((p,i)=>p.diamonds===DEFAULTS[i].diamonds&&currencies.every(c=>Number.isSafeInteger(p[c])&&p[c]>0)))return saved.map(p=>({...p,enabled:p.enabled!==false}));}catch(e){}return deepCopy(DEFAULTS);}
+  let packs=load();let currency='USD';let lastResults=null;let toastTimeout;
+  const formatNum=n=>numberFmt.format(n);
+  function money(code, units){switch(code){case 'USD':return '$'+(units/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});case 'HNL':return 'L '+formatNum(units);case 'MXN':return 'MX$ '+formatNum(units);default:return 'COP '+formatNum(units);}}
+  function error(message){$('error').textContent=message;$('error').classList.toggle('show',!!message);}
+  function calculate(target, basis){
+    const usable=packs.filter(p=>p.enabled);
+    if(!usable.length)return null;
+    const maxSize=Math.max(...usable.map(p=>p.diamonds));
+    // An optimal cost solution never needs to exceed target + largest pack - 1:
+    // otherwise, removing any one pack would still meet the target at lower cost.
+    const limit=target+maxSize-1;
+    const cost=new Float64Array(limit+1);cost.fill(Infinity);
+    const qty=new Int32Array(limit+1);qty.fill(2147483647);
+    const choice=new Int16Array(limit+1);choice.fill(-1);
+    cost[0]=0;qty[0]=0;
+    for(let d=1;d<=limit;d++){
+      for(let j=0;j<usable.length;j++){
+        const p=usable[j];if(d<p.diamonds)continue;
+        const before=d-p.diamonds;if(!Number.isFinite(cost[before]))continue;
+        const newCost=cost[before]+p[basis],newQty=qty[before]+1;
+        if(newCost<cost[d]||(newCost===cost[d]&&newQty<qty[d])){cost[d]=newCost;qty[d]=newQty;choice[d]=j;}
+      }
+    }
+    let leastCost=-1,closest=-1;
+    for(let d=target;d<=limit;d++){
+      if(choice[d]<0)continue;
+      if(closest===-1)closest=d;
+      if(leastCost<0||cost[d]<cost[leastCost]||(cost[d]===cost[leastCost]&&(d<leastCost||(d===leastCost&&qty[d]<qty[leastCost]))))leastCost=d;
+    }
+    function reconstruct(total){
+      if(total<0)return null;
+      const counts=Array(packs.length).fill(0);let remaining=total;
+      while(remaining>0){const idx=choice[remaining];if(idx<0)return null;const p=usable[idx];const original=packs.findIndex(q=>q.diamonds===p.diamonds);counts[original]++;remaining-=p.diamonds;}
+      const sums={USD:0,HNL:0,MXN:0,COP:0};
+      packs.forEach((p,i)=>currencies.forEach(c=>sums[c]+=p[c]*counts[i]));
+      return {total,counts,sums,extra:total-target,packages:counts.reduce((a,b)=>a+b,0),target};
+    }
+    return {best:reconstruct(leastCost),closest:reconstruct(closest)};
+  }
+  function cardData(mode,r){
+    const isBest=mode==='best';const title=isBest?'💰 Precio más económico':'🎯 Cantidad más ajustada';
+    const desc=isBest?'La combinación que cuesta menos y entrega al menos los diamantes pedidos.':'La combinación con menos diamantes sobrantes, aunque cueste un poco más.';
+    const pills=r.counts.map((q,i)=>q?`<span class="pack"><b>${q}×</b> 💎 ${formatNum(packs[i].diamonds)}</span>`:'').join('');
+    return `<div class="rectop"><div><h3>${title}</h3></div><span class="pill">${isBest?'AHORRÁS DINERO':'MENOS EXCEDENTE'}</span></div>
+      <p class="caption">${desc}</p>
+      <div class="price">${money(currency,r.sums[currency])}</div><div class="priceunder">Total en ${currency} · ${r.packages} paquete${r.packages===1?'':'s'}</div>
+      <div class="triplet"><div><span class="statlabel">Solicitados</span><span class="statnum">${formatNum(r.target)}</span></div><div><span class="statlabel">Recibe</span><span class="statnum positive">${formatNum(r.total)}</span></div><div><span class="statlabel">Adicionales</span><span class="statnum negative">+${formatNum(r.extra)}</span></div></div>
+      <div class="packtitle">📦 Paquetes que debes sumar</div><div class="packs">${pills}</div>
+      <div class="alltitle">Total en las cuatro monedas</div><div class="prices">${currencies.map(c=>`<div class="pricebox ${c===currency?'selected':''}"><span>${c}</span><b>${money(c,r.sums[c])}</b></div>`).join('')}</div>
+      <div class="buttons"><button class="primary" type="button" data-copy="${mode}">📋 Copiar precio para cliente</button><button class="secondary" type="button" data-copyall="${mode}">Copiar 4 monedas</button></div>`;
+  }
+  function render(){
+    const value=Number($('amount').value);
+    if(!Number.isSafeInteger(value)||value<1||value>200000){
+      error('Ingresá una cantidad entera entre 1 y 200,000 diamantes.');
+      $('bestCard').innerHTML='<p class="caption">Ingresá una cantidad válida para ver la cotización.</p>';
+      $('closestCard').innerHTML='';lastResults=null;return;
+    }
+    error('');lastResults=calculate(value,currency);
+    if(!lastResults){error('Activá al menos un paquete en la configuración.');$('bestCard').innerHTML='';$('closestCard').innerHTML='';return;}
+    $('bestCard').innerHTML=cardData('best',lastResults.best);
+    $('closestCard').innerHTML=cardData('closest',lastResults.closest);
+    if(lastResults.best.total===lastResults.closest.total){$('closestCard').querySelector('.caption').textContent='¡La misma cantidad también es la más cercana posible! Esta combinación minimiza los diamantes sobrantes.';}
+  }
+  function renderRows(){
+    $('priceRows').innerHTML=packs.map((p,i)=>`<tr><td><input type="checkbox" aria-label="Activar paquete de ${p.diamonds}" data-pack="${i}" data-field="enabled" ${p.enabled?'checked':''}></td><td>💎 ${formatNum(p.diamonds)}</td>${currencies.map(c=>`<td><input aria-label="Precio ${c} paquete ${p.diamonds}" type="number" inputmode="decimal" min="0.01" step="${c==='USD'?'0.01':'1'}" value="${c==='USD'?(p[c]/100).toFixed(2):p[c]}" data-pack="${i}" data-field="${c}"></td>`).join('')}</tr>`).join('');
+  }
+  function commitRows(){
+    const candidate=deepCopy(packs);
+    for(const el of $('priceRows').querySelectorAll('[data-pack]')){
+      const i=Number(el.dataset.pack),f=el.dataset.field;
+      if(f==='enabled'){candidate[i].enabled=el.checked;continue;}
+      const raw=Number(el.value);if(!Number.isFinite(raw)||raw<=0){error(`Revisá el precio ${f} del paquete ${formatNum(candidate[i].diamonds)}.`);el.focus();return false;}
+      const units=f==='USD'?Math.round(raw*100):raw;
+      if(!Number.isSafeInteger(units)||units<=0){error(`Ingresá un precio válido para ${f} de ${formatNum(candidate[i].diamonds)} diamantes.`);el.focus();return false;}
+      candidate[i][f]=units;
+    }
+    if(!candidate.some(p=>p.enabled)){error('Debés tener al menos un paquete activo.');return false;}
+    packs=candidate;
+    try{localStorage.setItem('ff_calc_prices_v1',JSON.stringify(packs));}catch(e){}
+    error('');render();notice('Precios guardados y cotización actualizada');return true;
+  }
+  function notice(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>t.classList.remove('on'),2500);}
+  function makeQuote(mode,all){
+    const r=lastResults&&lastResults[mode];if(!r)return '';
+    const title=mode==='best'?'Precio más económico':'Cantidad más ajustada';
+    const list=r.counts.map((q,i)=>q?`${q} × ${formatNum(packs[i].diamonds)} diamantes`:'').filter(Boolean).join(' + ');
+    return `💎 COTIZACIÓN DE DIAMANTES 💎\n${title}\n\nSolicitados: ${formatNum(r.target)} diamantes\nRecibís: ${formatNum(r.total)} diamantes\nExtras: +${formatNum(r.extra)} diamantes\n\nPaquetes: ${list}\n\n${all?currencies.map(c=>`${c}: ${money(c,r.sums[c])}`).join('\n'):`TOTAL: ${money(currency,r.sums[currency])}`}\n\n✅ Cantidad cubierta.`;
+  }
+  async function copyText(text){
+    try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);}else{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();if(!document.execCommand('copy'))throw new Error('Copy unavailable');ta.remove();}notice('¡Cotización copiada!');}
+    catch(e){notice('No se pudo copiar automáticamente; seleccioná el texto.');window.prompt('Copiá este mensaje:',text);}
+  }
+  $('amount').addEventListener('input',render);
+  document.querySelectorAll('[data-quick]').forEach(b=>b.addEventListener('click',()=>{$('amount').value=b.dataset.quick;render();$('amount').focus();}));
+  document.querySelectorAll('[data-currency]').forEach(b=>b.addEventListener('click',()=>{currency=b.dataset.currency;document.querySelectorAll('[data-currency]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));render();}));
+  $('savePrices').addEventListener('click',commitRows);
+  $('resetPrices').addEventListener('click',()=>{packs=deepCopy(DEFAULTS);try{localStorage.removeItem('ff_calc_prices_v1');}catch(e){}renderRows();error('');render();notice('Se restauraron los precios originales');});
+  document.querySelector('.results').addEventListener('click',event=>{const btn=event.target.closest('button');if(!btn)return;const mode=btn.dataset.copy||btn.dataset.copyall;if(mode)copyText(makeQuote(mode,btn.hasAttribute('data-copyall')));});
+  renderRows();render();
+})();
+</script>
+</body>
+</html>
